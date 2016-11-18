@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" data-ng-app="viewCust">
+<head>
+    <title>Gym || Register Customer</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/bootstrap/css/stylesBoot.css">
+
+
+</head>
+<body ng-controller="mainController">
+
+<nav class="navbar navbar-inverse">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand tcolor" href="#">
+                <img src="../assets/img/123.jpg" class="img-circle" style="margin-top:-10px;display: inline-block"
+                     alt="Cinque Terre" width="30px" height="auto"/>
+                <span style="display: inline-block" class="tcolor">VAJRADEHI GYM</span>
+            </a>
+
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="testAdd.html">Add</a></li>
+                <!--<li><a href="#">View</a></li>-->
+                <!--<li><a href="#">Contact</a></li>-->
+            </ul>
+            <ul class="nav navbar-nav navbar-right tcolor">
+                <li><a href="#" id="logout_sigh"><span class="glyphicon glyphicon-user tcolor"></span> Dear: {{userName }}
+                    Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!--<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Open Modal</button>-->
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 ">
+            <div class="row">
+                <div class="col-md-3 ">
+                    <h4 class="HeadList tcolor">Customers List</h4>
+                </div>
+                <div class="col-md-2 pull-right">
+                    <div class=" form-group has-success has-feedback">
+                        <input type="text" class="form-control" id="search" placeholder="search" ng-model="search"/>
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                    </div>
+                </div>
+                <div class="btn  btn-primary pull-right" style="margin-left: 10px" ng-click="paid('all')">All</div>
+                <div class="btn  btn-primary pull-right" style="margin-left: 10px" ng-click="paid('paid')">Paid</div>
+                <div class="btn  btn-primary pull-right"  ng-click="paid('due')">Due</div>
+            </div>
+            <!--<h3></h3>-->
+            <!--<pre>Click header link to sort, input into filter text to filter</pre>-->
+            <hr/>
+            <div class="ListCustomer">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th><a href="" ng-click="order('id')">id</a></th>
+                        <!--<th>&lt;!&ndash;Edit&ndash;&gt;</th>-->
+                        <th><a href="" ng-click="order('fname')"> Name</a></th>
+                        <th><a href="" ng-click="order('address')">Address</a></th>
+                        <th><a href="" ng-click="order('email')">Email</a></th>
+                        <th><a href="" ng-click="order('mobile')">Mobile</a></th>
+                        <th><a href="" ng-click="order('batch')">Batch</a></th>
+                        <th><a href="" ng-click="order('date_time')">Date Of Join</a></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!--<tr>-->
+                    <!--`id`, `fname`, `lname`, `address`, `email`, `mobile`, `batch`, `advance`, `date_time`-->
+                    <!--<td> <input type="text" ng-model="search.fname" /></td>-->
+                    <!--<td> <input type="text" ng-model="search.address" /> </td>-->
+                    <!--<td><input type="text" ng-model="search.email" /> </td>-->
+                    <!--<td> <input type="text" ng-model="search.mobile" /></td>-->
+                    <!--<td> <input type="text" ng-model="search.batch" /> </td>-->
+                    <!--<td><input type="text" ng-model="search.date_time" /> </td>-->
+                    <!--<td>&lt;!&ndash;Filter =>>&ndash;&gt;</td>-->
+                    <!--</tr>-->
+                    <tr ng-repeat="user in customers | orderBy:predicate:reverse | filter:paginate| filter:search" ng-click="go(user)"
+                        ng-class-odd="'odd'" data-toggle="modal" data-id="user.id" data-target="#myModal">
+
+                        <td>{{ user.id }}</td>
+                        <!--<td>-->
+                            <!--&lt;!&ndash;<button class="btn">&ndash;&gt;-->
+                            <!--&lt;!&ndash;Pay&ndash;&gt;-->
+                            <!--&lt;!&ndash;</button>&ndash;&gt;-->
+                        <!--</td>-->
+                        <td>{{ user.fname +" "+ user.lname }}</td>
+                        <td>{{ user.address}}</td>
+                        <td>{{ user.email}}</td>
+                        <td>{{ user.mobile}}</td>
+                        <td>{{ user.batch}}</td>
+                        <td>{{ user.date_time}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <pagination total-items="totalItems" ng-model="currentPage"
+                            max-size="5" boundary-links="true"
+                            items-per-page="numPerPage" class="pagination-sm">
+                </pagination>
+            </div>
+            <div class="PaidCustomer ">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <!--<th><a href="" ng-click="order('id')">id</a></th>-->
+                        <th><!--Edit--></th>
+                        <th><a href="" ng-click="order('cust_id')"> ID</a></th>
+                        <th><a href="" ng-click="order('cust_name')">Name</a></th>
+                        <th><a href="" ng-click="order('monthly_pay_amt')">Paid Amt</a></th>
+                        <th><a href="" ng-click="order('month_of_pay_date')">Paid Date</a></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="mnth in Paid | filter:paginationPaid | filter:search" ng-class-odd="'odd'" >
+
+                        <!--<td>{{ user.id }}</td>-->
+                        <td>
+                            <!--<button class="btn">-->
+                            <!--Pay-->
+                            <!--</button>-->
+                        </td>
+                        <td>{{ mnth.cust_id }}</td>
+                        <td>{{ mnth.cust_name}}</td>
+                        <td>{{ mnth.monthly_pay_amt}}</td>
+                        <td>{{ mnth.month_of_pay_date}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <pagination total-items="totalPAID" ng-model="currentPaidPage"
+                            max-size="5" boundary-links="true"
+                            items-per-page="numPerPaidPage" class="pagination-sm">
+                </pagination>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<div class="request">
+    <span> Hello</span>
+</div>
+
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <!--`cust_id`, `cust_name`, `monthly_pay_amt`, `month_of_pay_date`-->
+        <!-- Modal content-->
+        <div class="modal-content">
+            <form class="form-horizontal"   ng-submit="submitPayMonth(pay)">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Payment {{date | date:'yyyy-MM-dd'}}: Mr/Miss {{cust_name}}</h4>
+            </div>
+            <div class="modal-body">
+                    <input type="hidden" id="Mid" value="{{cust_id}}" >
+                    <input type="hidden" id="Mname" value="{{cust_name}}" >
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="monthAmt" >Monthly pay Amount :</label>
+                        <div class="col-md-6">
+                            <input id="monthAmt" name="monthAmt" ng-model="pay.monthAmt" value="" type="text" placeholder="Monthly pay Amount" class="form-control input-md" required="">
+                            <md-datepicker ng-model="myDate" md-placeholder="Enter date"></md-datepicker>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="monthAmt" >Monthly pay Date :</label>
+                        <div class="col-md-6">
+                            <input id="monthDate" name="monthDate" ng-model="pay.monthDate" type="date" placeholder="Monthly pay Date" class="form-control input-md" required="">
+
+                        </div>
+                    </div>
+
+            </div>
+            <div class="modal-footer">
+                <!-- Button (Double) -->
+                <div class="form-group ">
+                    <div class="col-md-2 pull-right">
+                        <input  type="reset" id="cancel" name="cancel" data-dismiss="modal"
+                                class="form-control btn btn-danger" value="Cancel">
+
+                    </div>
+                    <div class="col-md-2 pull-right">
+                        <input type="submit" name="login-submit" id="save" tabindex="2"
+                               class="form-control btn  btn-success" value="Pay">
+                    </div>
+                </div>
+                <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+            </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+<footer class="container-fluid ">
+    <span>@Copyright - 2016</span>
+</footer>
+
+<script>
+    (function () {
+        userid = window.sessionStorage.getItem("user");
+        if (userid == null) {
+            window.location = "../index.html";
+        }
+    })();
+</script>
+<script src="../assets/bootstrap/js/angular.js"></script>
+<script src="../assets/bootstrap/js/angular-resource.js"></script>
+<script src="../assets/bootstrap/js/ui-bootstrap-tpls-0.11.0.js"></script>
+<script src="../assets/bootstrap/js/jquery.min.js"></script>
+<script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="../assets/bootstrap/js/scriptBoot.js"></script>
+</body>
+</html>
+
